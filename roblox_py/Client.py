@@ -76,7 +76,7 @@ class Client:
                 josn = await f.json()
             if f.status == 403:
                 if josn['errors'][0]['message'] == 'You must pass the robot test before logging in.':
-                    et = await token.solve(ckey=f'476068BF-9607-4799-B53D-966BE98E2B81')
+                    et = await token.solve(public_key=f'476068BF-9607-4799-B53D-966BE98E2B81')
                     if type == "email":
                         dict_e = {
                             "ctype": "Email",
