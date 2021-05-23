@@ -26,7 +26,7 @@ class PlayerAuth:
         roblox_py.PlayerInfo
         """
         e = await self.request.request(url=f'https://users.roblox.com/v1/users/authenticated', method='get')
-        a = PlayerInfo(playerID=e['id'], request=self.request)
+        a = PlayerInfo(player_id=e['id'], request=self.request)
         await a.update()
         return a
 
