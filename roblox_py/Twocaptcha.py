@@ -1,6 +1,6 @@
 import asyncio
 import aiohttp
-from exceptions import *
+from .exceptions import *
 
 
 class TwoCaptcha:
