@@ -10,6 +10,7 @@ from .Join_Game import JoinGame
 from .GamepassInfo import GamepassInfo
 from .BadgeInfo import BadgeInfo
 from .PlaceInfo import PlaceInfo
+from .Twocaptcha import TwoCaptcha
 import aiohttp
 import json
 
@@ -26,7 +27,7 @@ class Client:
         self.request = Requests(cookies=cookies)
 
     @staticmethod
-    async def get_cookies_from_credentials(username_or_email, password, login_type, token):
+    async def get_cookies_from_credentials(username_or_email, password, login_type, token:TwoCaptcha):
 
         """
         Returns Cookies using Username/Email and Password
