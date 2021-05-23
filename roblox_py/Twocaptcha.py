@@ -62,22 +62,22 @@ class TwoCaptcha:
                 await asyncio.sleep(5)
                 async with f.post(f"https://2captcha.com/res.php?key={self.api_key}&id={task_id}&json=1&action=get") as lm:
                     data_json = await lm.json()
-                if data_json['requests'] == "ERROR_CAPTCHA_UNSOLVABLE":
+                if data_json['request'] == "ERROR_CAPTCHA_UNSOLVABLE":
                     raise UnsolvableCaptcha(
                         "We are unable to solve your captcha - three of our workers were unable "
                         "solve it or we didn't get an answer within 90 seconds (300 seconds for "
                         "reCAPTCHA V2). We will not charge you for that request.")
-                if data_json['requests'] == "REPORT_NOT_RECORDED":
+                if data_json['request'] == "REPORT_NOT_RECORDED":
                     raise ReportNotRecorded(
                         "Error is returned to your report request if you already complained lots "
                         "of correctly solved captchas (more than 40%). Or if more than 15 minutes "
                         "passed after you submitted the captcha.")
-                if data_json['requests'] == "ERROR_IP_ADDRES":
+                if data_json['request'] == "ERROR_IP_ADDRES":
                     raise IpAddressError(
                         "You can receive this error code when registering a pingback (callback) IP "
                         "or domain. This happens if your request is coming from an IP address that "
                         "doesn't match the IP address of your pingback IP or domain.")
-                if data_json['requests'] == "ERROR_PROXY_CONNECTION_FAILED":
+                if data_json['request'] == "ERROR_PROXY_CONNECTION_FAILED":
                     raise ProxyConnectionFailed(
                         "You can get this error code if we were unable to load a captcha "
                         "through your proxy server. The proxy will bemarked as BAD by our API "
