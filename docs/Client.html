@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>roblox_py.Client API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>roblox_py.Client</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .utils import Requests
+from .GroupInfo import GroupInfo
+from .Auth_Group import GroupAuth
+from .PlayerInfo import PlayerInfo
+from .exceptions import GroupNotFound, PlayerNotFound, GameNotFound
+from .Auth_Player import PlayerAuth
+from .BundleInfo import BundleInfo
+from .AssetInfo import AssetInfo
+from .Join_Game import JoinGame
+from .GamepassInfo import GamepassInfo
+from .BadgeInfo import BadgeInfo
+from .PlaceInfo import PlaceInfo
+from .Twocaptcha import TwoCaptcha
+import aiohttp
+import json
+
+
+class Client:
+    &#34;&#34;&#34;
+
+    Represents a roblox.py Main Client.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, cookies: str = None):
+        self.cookies = cookies
+        self.request = Requests(cookies=cookies)
+
+    @staticmethod
+    async def get_cookies_from_credentials(username_or_email, password, login_type, token: TwoCaptcha):
+
+        &#34;&#34;&#34;
+        Returns Cookies using Username/Email and Password
+
+        Parameters
+        ----------
+        username_or_email : str
+            User Email/Password to login in
+        password : str
+            Password of the account
+        login_type : str
+            login type to login in, can be &#34;email&#34; or &#34;username&#34;
+        token : stc
+            roblox_py.TwoCaptcha
+
+        &#34;&#34;&#34;
+        login_type = login_type.lower()
+        login_dict = None
+        if login_type == &#34;email&#34;:
+            login_dict = {
+                &#34;ctype&#34;: &#34;Email&#34;,
+                &#34;cvalue&#34;: f&#34;{username_or_email}&#34;,
+                &#34;password&#34;: f&#34;{password}&#34;,
+            }
+        if login_type == &#34;username&#34;:
+            login_dict = {
+                &#34;ctype&#34;: &#34;Username&#34;,
+                &#34;cvalue&#34;: username_or_email,
+                &#34;password&#34;: password
+            }
+        xcrsftoken = &#34;&#34;
+        async with aiohttp.ClientSession() as ses:
+            async def update_xcrsftoken():
+                async with ses.post(url=&#34;https://auth.roblox.com/&#34;) as xcsf_req:
+                    try:
+                        xcrsftoken = xcsf_req.headers[&#34;X-CSRF-TOKEN&#34;]
+                        return xcrsftoken
+                    except KeyError:
+                        xcrsftoken = &#34;&#34;
+                        return xcrsftoken
+
+            login_dict = json.dumps(login_dict)
+            xcrsftoken = await update_xcrsftoken()
+
+            async with ses.post(url=f&#39;https://auth.roblox.com/v2/login&#39;, data=login_dict, headers={
+                &#39;X-CSRF-TOKEN&#39;: xcrsftoken,
+                &#39;DNT&#39;: &#39;1&#39;,
+                &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36&#34;,
+                &#39;Content-type&#39;: &#39;application/json&#39;,
+                &#39;Accept&#39;: &#39;application/json&#39;,
+                &#39;referer&#39;: &#39;www.roblox.com&#39;,
+                &#39;Origin&#39;: &#39;www.roblox.com&#39;,
+            }) as f:
+                josn = await f.json()
+
+            if f.status == 403:
+                if josn[&#39;errors&#39;][0][&#39;message&#39;] == &#34;Token Validation Failed&#34;:
+                    xcrsftoken = await update_xcrsftoken()
+                if josn[&#39;errors&#39;][0][&#39;message&#39;] == &#39;You must pass the robot test before logging in.&#39;:
+                    et = await token.solve(public_key=f&#39;476068BF-9607-4799-B53D-966BE98E2B81&#39;)
+                    if login_type == &#34;email&#34;:
+                        login_dict = {
+                            &#34;ctype&#34;: &#34;Email&#34;,
+                            &#34;cvalue&#34;: username_or_email,
+                            &#34;password&#34;: password,
+                            &#39;captchaToken&#39;: et,
+                            &#34;captchaProvider&#34;: &#39;PROVIDER_ARKOSE_LABS&#39;}
+                    if login_type == &#39;username&#39;:
+                        login_dict = {
+                            &#34;ctype&#34;: &#34;Username&#34;,
+                            &#34;cvalue&#34;: username_or_email,
+                            &#34;password&#34;: password,
+                            &#39;captchaToken&#39;: et,
+                            &#34;captchaProvider&#34;: &#39;PROVIDER_ARKOSE_LABS&#39;}
+                    login_dict = json.dumps(login_dict)
+                    xcrsftoken = await update_xcrsftoken()
+
+                    async with ses.post(url=f&#39;https://auth.roblox.com/v2/login&#39;, data=login_dict, headers={
+                        &#39;X-CSRF-TOKEN&#39;: xcrsftoken,
+                        &#39;DNT&#39;: &#39;1&#39;,
+                        &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36&#34;,
+                        &#39;Content-type&#39;: &#39;application/json&#39;,
+                        &#39;Accept&#39;: &#39;application/json&#39;,
+                        &#39;referer&#39;: &#39;www.roblox.com&#39;,
+                        &#39;Origin&#39;: &#39;www.roblox.com&#39;,
+                    }) as no:
+                        ja = await no.json()
+                        if no.status == 403:
+                            if ja[&#39;errors&#39;][0][&#39;message&#39;] == &#34;Token Validation Failed&#34;:
+                                xcrsftoken = await update_xcrsftoken()
+                        try:
+                            cookie_dict = {
+                                &#39;.ROBLOSECURITY&#39;: f&#34;{no.cookies.get(&#39;.ROBLOSECURITY&#39;).value}&#34;,
+                                &#34;.RBXID&#34;: f&#34;{no.cookies.get(&#39;.RBXID&#39;).value}&#34;}
+                            return cookie_dict
+
+                        except Exception:
+                            return no.cookies
+
+    async def get_group_info(self, group_id: int) -&gt; GroupInfo:
+        &#34;&#34;&#34;
+
+        Returns Group Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        group_id : int
+            Group ID
+
+        Returns
+        -------
+        roblox_py.GroupInfo
+
+        &#34;&#34;&#34;
+
+        idkdd = isinstance(group_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{group_id} must be an integer&#34;)
+        yes = GroupInfo(group_id=group_id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_group_by_name(self, group_name: str) -&gt; list:
+        &#34;&#34;&#34;
+
+        Returns a dict of group by name
+
+        Parameters
+        ----------
+        group_name : str
+            Group Name
+
+        Returns
+        -------
+        list
+
+        &#34;&#34;&#34;
+
+        _eep = await self.request.request(
+            url=f&#34;https://groups.roblox.com/v1/groups/search/lookup?groupName={group_name}&#34;,
+            method=&#39;get&#39;)
+        _lis = []
+        if _eep[&#39;data&#39;] is []:
+            raise GroupNotFound
+        for data in _eep[&#34;data&#34;]:
+            idd = data.get(&#34;id&#34;)
+            name = data.get(&#34;name&#34;)
+            e = dict(name=name, id=idd)
+            _lis.append(e)
+        return _lis
+
+    async def get_user_by_name(self, username: str) -&gt; PlayerInfo:
+        &#34;&#34;&#34;
+
+        Returns Player Info Class By username - Also Calls the update Function
+
+        Parameters
+        ----------
+        username : str
+            Name of the User
+
+        Returns
+        -------
+        roblox_py.PlayerInfo
+
+        &#34;&#34;&#34;
+        url = f&#34;https://api.roblox.com/users/get-by-username&#34;
+        pars = {&#39;username&#39;: username}
+        json1 = await self.request.request(url=url, parms=pars, method=&#39;get&#39;)
+        if &#34;Id&#34; not in json1.keys():
+            raise PlayerNotFound(&#34;Username is Invalid&#34;)
+        else:
+            e = PlayerInfo(player_id=json1[&#39;Id&#39;], request=self.request)
+            await e.update()
+            return e
+
+    async def get_user_info(self, Player_Id: int) -&gt; PlayerInfo:
+        &#34;&#34;&#34;
+
+        Returns Player Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        Player_Id : int
+            ID of the User
+
+        Returns
+        -------
+        roblox_py.PlayerInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Player_Id, str)
+        if idkdd:
+            raise TypeError(f&#34;{Player_Id} must be an integer&#34;)
+        yes = PlayerInfo(player_id=Player_Id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_auth_user(self) -&gt; PlayerAuth:
+        &#34;&#34;&#34;
+        Returns Authenticated User class
+
+        Returns
+        -------
+        roblox_py.PlayerAuth
+
+        &#34;&#34;&#34;
+        return PlayerAuth(request=self.request)
+
+    async def get_auth_group(self, Group_Id: int) -&gt; GroupAuth:
+        &#34;&#34;&#34;
+        Returns Authenticated Group class
+
+        Parameters
+        ----------
+        Group_Id : int
+            Group Id
+
+        Returns
+        -------
+        roblox_py.GroupAuth
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Group_Id, str)
+        if idkdd:
+            raise TypeError(f&#34;{Group_Id} must be an integer&#34;)
+        return GroupAuth(group_id=Group_Id, request=self.request)
+
+    async def get_bundle(self, Bundle_ID: int) -&gt; BundleInfo:
+        &#34;&#34;&#34;
+        Returns Bundle Info Class
+
+        Parameters
+        ----------
+        Bundle_ID : int
+            Bundle ID
+
+        Returns
+        -------
+        roblox_py.BundleInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Bundle_ID, str)
+        if idkdd:
+            raise TypeError(f&#34;{Bundle_ID} must be an integer&#34;)
+        yes = BundleInfo(bundle_id=Bundle_ID, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_asset(self, Asset_id: int) -&gt; AssetInfo:
+        &#34;&#34;&#34;
+
+        Returns Asset Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        Asset_id : int
+            Asset id
+
+        Returns
+        -------
+        roblox_py.AssetInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Asset_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{Asset_id} must be an integer&#34;)
+        yes = AssetInfo(asset_id=Asset_id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_gamepass(self, gamepass_id: int) -&gt; GamepassInfo:
+        &#34;&#34;&#34;
+
+        Returns Game-pass Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        gamepass_id : int
+            gamepass id
+
+        Returns
+        -------
+        roblox_py.GamepassInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(gamepass_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{gamepass_id} must be an integer&#34;)
+        yes = GamepassInfo(gamepass_id=gamepass_id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def join_game(self, PlaceID: int, roblox_folder_path=None, roblox_game_path=None) -&gt; JoinGame:
+        &#34;&#34;&#34;
+
+        Returns the Join Game Class
+
+        Parameters
+        ----------
+        PlaceID : int
+            Place Id to join
+        roblox_folder_path : str
+            Roblox Resource Folder Path
+        roblox_game_path : str
+            Roblox Game Folder Path
+
+
+        Returns
+        -------
+        roblox_py.JoinGame
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(PlaceID, str)
+        if idkdd:
+            raise TypeError(f&#34;{PlaceID} must be an integer&#34;)
+        return JoinGame(
+            game_id=PlaceID,
+            request=self.request,
+            roblox_folder_path=roblox_folder_path,
+            roblox_game_folder_path=roblox_game_path)
+
+    async def get_badge(self, badge_id: int) -&gt; BadgeInfo:
+        &#34;&#34;&#34;
+        Returns Badge Info Class - Also Calls the update Function
+
+
+        Returns
+        -------
+        roblox_py.BadgeInfo
+        &#34;&#34;&#34;
+        idkdd = isinstance(badge_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{badge_id} must be an integer&#34;)
+        e = BadgeInfo(badge_id=badge_id, request=self.request)
+        await e.update()
+        return e
+
+    async def get_place(self, unverise_id) -&gt; PlaceInfo:
+        &#34;&#34;&#34;
+        Returns Place Info Class - Also Calls the update Function
+
+        Returns
+        -------
+        roblox_py.PlaceInfo
+        &#34;&#34;&#34;
+        e = PlaceInfo(universe_id=unverise_id, request=self.request)
+        await e.update()
+        return e
+
+    async def get_place_by_id(self, place_id: int) -&gt; PlaceInfo:
+        &#34;&#34;&#34;
+        Returns Place Info Class - Also Calls the update Function
+
+        Returns
+        -------
+        roblox_py.PlaceInfo
+        &#34;&#34;&#34;
+        idkdd = isinstance(place_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{place_id} must be an integer&#34;)
+        r = await self.request.request(
+            url=f&#39;https://games.roblox.com/v1/games/multiget-place-details?placeIds={place_id}&#39;, method=&#39;get&#39;)
+
+        if r is []:
+            raise GameNotFound(&#34;Invalid Game ID&#34;)
+        e = PlaceInfo(universe_id=r[0][&#39;universeId&#39;], request=self.request)
+        await e.update()
+        return e</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="roblox_py.Client.Client"><code class="flex name class">
+<span>class <span class="ident">Client</span></span>
+<span>(</span><span>cookies: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a roblox.py Main Client.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Client:
+    &#34;&#34;&#34;
+
+    Represents a roblox.py Main Client.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, cookies: str = None):
+        self.cookies = cookies
+        self.request = Requests(cookies=cookies)
+
+    @staticmethod
+    async def get_cookies_from_credentials(username_or_email, password, login_type, token: TwoCaptcha):
+
+        &#34;&#34;&#34;
+        Returns Cookies using Username/Email and Password
+
+        Parameters
+        ----------
+        username_or_email : str
+            User Email/Password to login in
+        password : str
+            Password of the account
+        login_type : str
+            login type to login in, can be &#34;email&#34; or &#34;username&#34;
+        token : stc
+            roblox_py.TwoCaptcha
+
+        &#34;&#34;&#34;
+        login_type = login_type.lower()
+        login_dict = None
+        if login_type == &#34;email&#34;:
+            login_dict = {
+                &#34;ctype&#34;: &#34;Email&#34;,
+                &#34;cvalue&#34;: f&#34;{username_or_email}&#34;,
+                &#34;password&#34;: f&#34;{password}&#34;,
+            }
+        if login_type == &#34;username&#34;:
+            login_dict = {
+                &#34;ctype&#34;: &#34;Username&#34;,
+                &#34;cvalue&#34;: username_or_email,
+                &#34;password&#34;: password
+            }
+        xcrsftoken = &#34;&#34;
+        async with aiohttp.ClientSession() as ses:
+            async def update_xcrsftoken():
+                async with ses.post(url=&#34;https://auth.roblox.com/&#34;) as xcsf_req:
+                    try:
+                        xcrsftoken = xcsf_req.headers[&#34;X-CSRF-TOKEN&#34;]
+                        return xcrsftoken
+                    except KeyError:
+                        xcrsftoken = &#34;&#34;
+                        return xcrsftoken
+
+            login_dict = json.dumps(login_dict)
+            xcrsftoken = await update_xcrsftoken()
+
+            async with ses.post(url=f&#39;https://auth.roblox.com/v2/login&#39;, data=login_dict, headers={
+                &#39;X-CSRF-TOKEN&#39;: xcrsftoken,
+                &#39;DNT&#39;: &#39;1&#39;,
+                &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36&#34;,
+                &#39;Content-type&#39;: &#39;application/json&#39;,
+                &#39;Accept&#39;: &#39;application/json&#39;,
+                &#39;referer&#39;: &#39;www.roblox.com&#39;,
+                &#39;Origin&#39;: &#39;www.roblox.com&#39;,
+            }) as f:
+                josn = await f.json()
+
+            if f.status == 403:
+                if josn[&#39;errors&#39;][0][&#39;message&#39;] == &#34;Token Validation Failed&#34;:
+                    xcrsftoken = await update_xcrsftoken()
+                if josn[&#39;errors&#39;][0][&#39;message&#39;] == &#39;You must pass the robot test before logging in.&#39;:
+                    et = await token.solve(public_key=f&#39;476068BF-9607-4799-B53D-966BE98E2B81&#39;)
+                    if login_type == &#34;email&#34;:
+                        login_dict = {
+                            &#34;ctype&#34;: &#34;Email&#34;,
+                            &#34;cvalue&#34;: username_or_email,
+                            &#34;password&#34;: password,
+                            &#39;captchaToken&#39;: et,
+                            &#34;captchaProvider&#34;: &#39;PROVIDER_ARKOSE_LABS&#39;}
+                    if login_type == &#39;username&#39;:
+                        login_dict = {
+                            &#34;ctype&#34;: &#34;Username&#34;,
+                            &#34;cvalue&#34;: username_or_email,
+                            &#34;password&#34;: password,
+                            &#39;captchaToken&#39;: et,
+                            &#34;captchaProvider&#34;: &#39;PROVIDER_ARKOSE_LABS&#39;}
+                    login_dict = json.dumps(login_dict)
+                    xcrsftoken = await update_xcrsftoken()
+
+                    async with ses.post(url=f&#39;https://auth.roblox.com/v2/login&#39;, data=login_dict, headers={
+                        &#39;X-CSRF-TOKEN&#39;: xcrsftoken,
+                        &#39;DNT&#39;: &#39;1&#39;,
+                        &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36&#34;,
+                        &#39;Content-type&#39;: &#39;application/json&#39;,
+                        &#39;Accept&#39;: &#39;application/json&#39;,
+                        &#39;referer&#39;: &#39;www.roblox.com&#39;,
+                        &#39;Origin&#39;: &#39;www.roblox.com&#39;,
+                    }) as no:
+                        ja = await no.json()
+                        if no.status == 403:
+                            if ja[&#39;errors&#39;][0][&#39;message&#39;] == &#34;Token Validation Failed&#34;:
+                                xcrsftoken = await update_xcrsftoken()
+                        try:
+                            cookie_dict = {
+                                &#39;.ROBLOSECURITY&#39;: f&#34;{no.cookies.get(&#39;.ROBLOSECURITY&#39;).value}&#34;,
+                                &#34;.RBXID&#34;: f&#34;{no.cookies.get(&#39;.RBXID&#39;).value}&#34;}
+                            return cookie_dict
+
+                        except Exception:
+                            return no.cookies
+
+    async def get_group_info(self, group_id: int) -&gt; GroupInfo:
+        &#34;&#34;&#34;
+
+        Returns Group Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        group_id : int
+            Group ID
+
+        Returns
+        -------
+        roblox_py.GroupInfo
+
+        &#34;&#34;&#34;
+
+        idkdd = isinstance(group_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{group_id} must be an integer&#34;)
+        yes = GroupInfo(group_id=group_id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_group_by_name(self, group_name: str) -&gt; list:
+        &#34;&#34;&#34;
+
+        Returns a dict of group by name
+
+        Parameters
+        ----------
+        group_name : str
+            Group Name
+
+        Returns
+        -------
+        list
+
+        &#34;&#34;&#34;
+
+        _eep = await self.request.request(
+            url=f&#34;https://groups.roblox.com/v1/groups/search/lookup?groupName={group_name}&#34;,
+            method=&#39;get&#39;)
+        _lis = []
+        if _eep[&#39;data&#39;] is []:
+            raise GroupNotFound
+        for data in _eep[&#34;data&#34;]:
+            idd = data.get(&#34;id&#34;)
+            name = data.get(&#34;name&#34;)
+            e = dict(name=name, id=idd)
+            _lis.append(e)
+        return _lis
+
+    async def get_user_by_name(self, username: str) -&gt; PlayerInfo:
+        &#34;&#34;&#34;
+
+        Returns Player Info Class By username - Also Calls the update Function
+
+        Parameters
+        ----------
+        username : str
+            Name of the User
+
+        Returns
+        -------
+        roblox_py.PlayerInfo
+
+        &#34;&#34;&#34;
+        url = f&#34;https://api.roblox.com/users/get-by-username&#34;
+        pars = {&#39;username&#39;: username}
+        json1 = await self.request.request(url=url, parms=pars, method=&#39;get&#39;)
+        if &#34;Id&#34; not in json1.keys():
+            raise PlayerNotFound(&#34;Username is Invalid&#34;)
+        else:
+            e = PlayerInfo(player_id=json1[&#39;Id&#39;], request=self.request)
+            await e.update()
+            return e
+
+    async def get_user_info(self, Player_Id: int) -&gt; PlayerInfo:
+        &#34;&#34;&#34;
+
+        Returns Player Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        Player_Id : int
+            ID of the User
+
+        Returns
+        -------
+        roblox_py.PlayerInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Player_Id, str)
+        if idkdd:
+            raise TypeError(f&#34;{Player_Id} must be an integer&#34;)
+        yes = PlayerInfo(player_id=Player_Id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_auth_user(self) -&gt; PlayerAuth:
+        &#34;&#34;&#34;
+        Returns Authenticated User class
+
+        Returns
+        -------
+        roblox_py.PlayerAuth
+
+        &#34;&#34;&#34;
+        return PlayerAuth(request=self.request)
+
+    async def get_auth_group(self, Group_Id: int) -&gt; GroupAuth:
+        &#34;&#34;&#34;
+        Returns Authenticated Group class
+
+        Parameters
+        ----------
+        Group_Id : int
+            Group Id
+
+        Returns
+        -------
+        roblox_py.GroupAuth
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Group_Id, str)
+        if idkdd:
+            raise TypeError(f&#34;{Group_Id} must be an integer&#34;)
+        return GroupAuth(group_id=Group_Id, request=self.request)
+
+    async def get_bundle(self, Bundle_ID: int) -&gt; BundleInfo:
+        &#34;&#34;&#34;
+        Returns Bundle Info Class
+
+        Parameters
+        ----------
+        Bundle_ID : int
+            Bundle ID
+
+        Returns
+        -------
+        roblox_py.BundleInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Bundle_ID, str)
+        if idkdd:
+            raise TypeError(f&#34;{Bundle_ID} must be an integer&#34;)
+        yes = BundleInfo(bundle_id=Bundle_ID, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_asset(self, Asset_id: int) -&gt; AssetInfo:
+        &#34;&#34;&#34;
+
+        Returns Asset Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        Asset_id : int
+            Asset id
+
+        Returns
+        -------
+        roblox_py.AssetInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(Asset_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{Asset_id} must be an integer&#34;)
+        yes = AssetInfo(asset_id=Asset_id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def get_gamepass(self, gamepass_id: int) -&gt; GamepassInfo:
+        &#34;&#34;&#34;
+
+        Returns Game-pass Info Class - Also Calls the update Function
+
+        Parameters
+        ----------
+        gamepass_id : int
+            gamepass id
+
+        Returns
+        -------
+        roblox_py.GamepassInfo
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(gamepass_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{gamepass_id} must be an integer&#34;)
+        yes = GamepassInfo(gamepass_id=gamepass_id, request=self.request)
+        await yes.update()
+        return yes
+
+    async def join_game(self, PlaceID: int, roblox_folder_path=None, roblox_game_path=None) -&gt; JoinGame:
+        &#34;&#34;&#34;
+
+        Returns the Join Game Class
+
+        Parameters
+        ----------
+        PlaceID : int
+            Place Id to join
+        roblox_folder_path : str
+            Roblox Resource Folder Path
+        roblox_game_path : str
+            Roblox Game Folder Path
+
+
+        Returns
+        -------
+        roblox_py.JoinGame
+
+        &#34;&#34;&#34;
+        idkdd = isinstance(PlaceID, str)
+        if idkdd:
+            raise TypeError(f&#34;{PlaceID} must be an integer&#34;)
+        return JoinGame(
+            game_id=PlaceID,
+            request=self.request,
+            roblox_folder_path=roblox_folder_path,
+            roblox_game_folder_path=roblox_game_path)
+
+    async def get_badge(self, badge_id: int) -&gt; BadgeInfo:
+        &#34;&#34;&#34;
+        Returns Badge Info Class - Also Calls the update Function
+
+
+        Returns
+        -------
+        roblox_py.BadgeInfo
+        &#34;&#34;&#34;
+        idkdd = isinstance(badge_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{badge_id} must be an integer&#34;)
+        e = BadgeInfo(badge_id=badge_id, request=self.request)
+        await e.update()
+        return e
+
+    async def get_place(self, unverise_id) -&gt; PlaceInfo:
+        &#34;&#34;&#34;
+        Returns Place Info Class - Also Calls the update Function
+
+        Returns
+        -------
+        roblox_py.PlaceInfo
+        &#34;&#34;&#34;
+        e = PlaceInfo(universe_id=unverise_id, request=self.request)
+        await e.update()
+        return e
+
+    async def get_place_by_id(self, place_id: int) -&gt; PlaceInfo:
+        &#34;&#34;&#34;
+        Returns Place Info Class - Also Calls the update Function
+
+        Returns
+        -------
+        roblox_py.PlaceInfo
+        &#34;&#34;&#34;
+        idkdd = isinstance(place_id, str)
+        if idkdd:
+            raise TypeError(f&#34;{place_id} must be an integer&#34;)
+        r = await self.request.request(
+            url=f&#39;https://games.roblox.com/v1/games/multiget-place-details?placeIds={place_id}&#39;, method=&#39;get&#39;)
+
+        if r is []:
+            raise GameNotFound(&#34;Invalid Game ID&#34;)
+        e = PlaceInfo(universe_id=r[0][&#39;universeId&#39;], request=self.request)
+        await e.update()
+        return e</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="roblox_py.Client.Client.get_cookies_from_credentials"><code class="name flex">
+<span>async def <span class="ident">get_cookies_from_credentials</span></span>(<span>username_or_email, password, login_type, token: <a title="roblox_py.Twocaptcha.TwoCaptcha" href="Twocaptcha.html#roblox_py.Twocaptcha.TwoCaptcha">TwoCaptcha</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Cookies using Username/Email and Password</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>username_or_email</code></strong> :&ensp;<code>str</code></dt>
+<dd>User Email/Password to login in</dd>
+<dt><strong><code>password</code></strong> :&ensp;<code>str</code></dt>
+<dd>Password of the account</dd>
+<dt><strong><code>login_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>login type to login in, can be "email" or "username"</dd>
+<dt><strong><code>token</code></strong> :&ensp;<code>stc</code></dt>
+<dd>roblox_py.TwoCaptcha</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+async def get_cookies_from_credentials(username_or_email, password, login_type, token: TwoCaptcha):
+
+    &#34;&#34;&#34;
+    Returns Cookies using Username/Email and Password
+
+    Parameters
+    ----------
+    username_or_email : str
+        User Email/Password to login in
+    password : str
+        Password of the account
+    login_type : str
+        login type to login in, can be &#34;email&#34; or &#34;username&#34;
+    token : stc
+        roblox_py.TwoCaptcha
+
+    &#34;&#34;&#34;
+    login_type = login_type.lower()
+    login_dict = None
+    if login_type == &#34;email&#34;:
+        login_dict = {
+            &#34;ctype&#34;: &#34;Email&#34;,
+            &#34;cvalue&#34;: f&#34;{username_or_email}&#34;,
+            &#34;password&#34;: f&#34;{password}&#34;,
+        }
+    if login_type == &#34;username&#34;:
+        login_dict = {
+            &#34;ctype&#34;: &#34;Username&#34;,
+            &#34;cvalue&#34;: username_or_email,
+            &#34;password&#34;: password
+        }
+    xcrsftoken = &#34;&#34;
+    async with aiohttp.ClientSession() as ses:
+        async def update_xcrsftoken():
+            async with ses.post(url=&#34;https://auth.roblox.com/&#34;) as xcsf_req:
+                try:
+                    xcrsftoken = xcsf_req.headers[&#34;X-CSRF-TOKEN&#34;]
+                    return xcrsftoken
+                except KeyError:
+                    xcrsftoken = &#34;&#34;
+                    return xcrsftoken
+
+        login_dict = json.dumps(login_dict)
+        xcrsftoken = await update_xcrsftoken()
+
+        async with ses.post(url=f&#39;https://auth.roblox.com/v2/login&#39;, data=login_dict, headers={
+            &#39;X-CSRF-TOKEN&#39;: xcrsftoken,
+            &#39;DNT&#39;: &#39;1&#39;,
+            &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36&#34;,
+            &#39;Content-type&#39;: &#39;application/json&#39;,
+            &#39;Accept&#39;: &#39;application/json&#39;,
+            &#39;referer&#39;: &#39;www.roblox.com&#39;,
+            &#39;Origin&#39;: &#39;www.roblox.com&#39;,
+        }) as f:
+            josn = await f.json()
+
+        if f.status == 403:
+            if josn[&#39;errors&#39;][0][&#39;message&#39;] == &#34;Token Validation Failed&#34;:
+                xcrsftoken = await update_xcrsftoken()
+            if josn[&#39;errors&#39;][0][&#39;message&#39;] == &#39;You must pass the robot test before logging in.&#39;:
+                et = await token.solve(public_key=f&#39;476068BF-9607-4799-B53D-966BE98E2B81&#39;)
+                if login_type == &#34;email&#34;:
+                    login_dict = {
+                        &#34;ctype&#34;: &#34;Email&#34;,
+                        &#34;cvalue&#34;: username_or_email,
+                        &#34;password&#34;: password,
+                        &#39;captchaToken&#39;: et,
+                        &#34;captchaProvider&#34;: &#39;PROVIDER_ARKOSE_LABS&#39;}
+                if login_type == &#39;username&#39;:
+                    login_dict = {
+                        &#34;ctype&#34;: &#34;Username&#34;,
+                        &#34;cvalue&#34;: username_or_email,
+                        &#34;password&#34;: password,
+                        &#39;captchaToken&#39;: et,
+                        &#34;captchaProvider&#34;: &#39;PROVIDER_ARKOSE_LABS&#39;}
+                login_dict = json.dumps(login_dict)
+                xcrsftoken = await update_xcrsftoken()
+
+                async with ses.post(url=f&#39;https://auth.roblox.com/v2/login&#39;, data=login_dict, headers={
+                    &#39;X-CSRF-TOKEN&#39;: xcrsftoken,
+                    &#39;DNT&#39;: &#39;1&#39;,
+                    &#34;User-Agent&#34;: &#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36&#34;,
+                    &#39;Content-type&#39;: &#39;application/json&#39;,
+                    &#39;Accept&#39;: &#39;application/json&#39;,
+                    &#39;referer&#39;: &#39;www.roblox.com&#39;,
+                    &#39;Origin&#39;: &#39;www.roblox.com&#39;,
+                }) as no:
+                    ja = await no.json()
+                    if no.status == 403:
+                        if ja[&#39;errors&#39;][0][&#39;message&#39;] == &#34;Token Validation Failed&#34;:
+                            xcrsftoken = await update_xcrsftoken()
+                    try:
+                        cookie_dict = {
+                            &#39;.ROBLOSECURITY&#39;: f&#34;{no.cookies.get(&#39;.ROBLOSECURITY&#39;).value}&#34;,
+                            &#34;.RBXID&#34;: f&#34;{no.cookies.get(&#39;.RBXID&#39;).value}&#34;}
+                        return cookie_dict
+
+                    except Exception:
+                        return no.cookies</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="roblox_py.Client.Client.get_asset"><code class="name flex">
+<span>async def <span class="ident">get_asset</span></span>(<span>self, Asset_id: int) ‑> <a title="roblox_py.AssetInfo.AssetInfo" href="AssetInfo.html#roblox_py.AssetInfo.AssetInfo">AssetInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Asset Info Class - Also Calls the update Function</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>Asset_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>Asset id</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.AssetInfo" href="AssetInfo.html">roblox_py.AssetInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_asset(self, Asset_id: int) -&gt; AssetInfo:
+    &#34;&#34;&#34;
+
+    Returns Asset Info Class - Also Calls the update Function
+
+    Parameters
+    ----------
+    Asset_id : int
+        Asset id
+
+    Returns
+    -------
+    roblox_py.AssetInfo
+
+    &#34;&#34;&#34;
+    idkdd = isinstance(Asset_id, str)
+    if idkdd:
+        raise TypeError(f&#34;{Asset_id} must be an integer&#34;)
+    yes = AssetInfo(asset_id=Asset_id, request=self.request)
+    await yes.update()
+    return yes</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_auth_group"><code class="name flex">
+<span>async def <span class="ident">get_auth_group</span></span>(<span>self, Group_Id: int) ‑> <a title="roblox_py.Auth_Group.GroupAuth" href="Auth_Group.html#roblox_py.Auth_Group.GroupAuth">GroupAuth</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Authenticated Group class</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>Group_Id</code></strong> :&ensp;<code>int</code></dt>
+<dd>Group Id</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>roblox_py.GroupAuth</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_auth_group(self, Group_Id: int) -&gt; GroupAuth:
+    &#34;&#34;&#34;
+    Returns Authenticated Group class
+
+    Parameters
+    ----------
+    Group_Id : int
+        Group Id
+
+    Returns
+    -------
+    roblox_py.GroupAuth
+
+    &#34;&#34;&#34;
+    idkdd = isinstance(Group_Id, str)
+    if idkdd:
+        raise TypeError(f&#34;{Group_Id} must be an integer&#34;)
+    return GroupAuth(group_id=Group_Id, request=self.request)</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_auth_user"><code class="name flex">
+<span>async def <span class="ident">get_auth_user</span></span>(<span>self) ‑> <a title="roblox_py.Auth_Player.PlayerAuth" href="Auth_Player.html#roblox_py.Auth_Player.PlayerAuth">PlayerAuth</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Authenticated User class</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>roblox_py.PlayerAuth</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_auth_user(self) -&gt; PlayerAuth:
+    &#34;&#34;&#34;
+    Returns Authenticated User class
+
+    Returns
+    -------
+    roblox_py.PlayerAuth
+
+    &#34;&#34;&#34;
+    return PlayerAuth(request=self.request)</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_badge"><code class="name flex">
+<span>async def <span class="ident">get_badge</span></span>(<span>self, badge_id: int) ‑> <a title="roblox_py.BadgeInfo.BadgeInfo" href="BadgeInfo.html#roblox_py.BadgeInfo.BadgeInfo">BadgeInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Badge Info Class - Also Calls the update Function</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.BadgeInfo" href="BadgeInfo.html">roblox_py.BadgeInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_badge(self, badge_id: int) -&gt; BadgeInfo:
+    &#34;&#34;&#34;
+    Returns Badge Info Class - Also Calls the update Function
+
+
+    Returns
+    -------
+    roblox_py.BadgeInfo
+    &#34;&#34;&#34;
+    idkdd = isinstance(badge_id, str)
+    if idkdd:
+        raise TypeError(f&#34;{badge_id} must be an integer&#34;)
+    e = BadgeInfo(badge_id=badge_id, request=self.request)
+    await e.update()
+    return e</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_bundle"><code class="name flex">
+<span>async def <span class="ident">get_bundle</span></span>(<span>self, Bundle_ID: int) ‑> <a title="roblox_py.BundleInfo.BundleInfo" href="BundleInfo.html#roblox_py.BundleInfo.BundleInfo">BundleInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Bundle Info Class</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>Bundle_ID</code></strong> :&ensp;<code>int</code></dt>
+<dd>Bundle ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.BundleInfo" href="BundleInfo.html">roblox_py.BundleInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_bundle(self, Bundle_ID: int) -&gt; BundleInfo:
+    &#34;&#34;&#34;
+    Returns Bundle Info Class
+
+    Parameters
+    ----------
+    Bundle_ID : int
+        Bundle ID
+
+    Returns
+    -------
+    roblox_py.BundleInfo
+
+    &#34;&#34;&#34;
+    idkdd = isinstance(Bundle_ID, str)
+    if idkdd:
+        raise TypeError(f&#34;{Bundle_ID} must be an integer&#34;)
+    yes = BundleInfo(bundle_id=Bundle_ID, request=self.request)
+    await yes.update()
+    return yes</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_gamepass"><code class="name flex">
+<span>async def <span class="ident">get_gamepass</span></span>(<span>self, gamepass_id: int) ‑> <a title="roblox_py.GamepassInfo.GamepassInfo" href="GamepassInfo.html#roblox_py.GamepassInfo.GamepassInfo">GamepassInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Game-pass Info Class - Also Calls the update Function</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>gamepass_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>gamepass id</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.GamepassInfo" href="GamepassInfo.html">roblox_py.GamepassInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_gamepass(self, gamepass_id: int) -&gt; GamepassInfo:
+    &#34;&#34;&#34;
+
+    Returns Game-pass Info Class - Also Calls the update Function
+
+    Parameters
+    ----------
+    gamepass_id : int
+        gamepass id
+
+    Returns
+    -------
+    roblox_py.GamepassInfo
+
+    &#34;&#34;&#34;
+    idkdd = isinstance(gamepass_id, str)
+    if idkdd:
+        raise TypeError(f&#34;{gamepass_id} must be an integer&#34;)
+    yes = GamepassInfo(gamepass_id=gamepass_id, request=self.request)
+    await yes.update()
+    return yes</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_group_by_name"><code class="name flex">
+<span>async def <span class="ident">get_group_by_name</span></span>(<span>self, group_name: str) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a dict of group by name</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>group_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Group Name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_group_by_name(self, group_name: str) -&gt; list:
+    &#34;&#34;&#34;
+
+    Returns a dict of group by name
+
+    Parameters
+    ----------
+    group_name : str
+        Group Name
+
+    Returns
+    -------
+    list
+
+    &#34;&#34;&#34;
+
+    _eep = await self.request.request(
+        url=f&#34;https://groups.roblox.com/v1/groups/search/lookup?groupName={group_name}&#34;,
+        method=&#39;get&#39;)
+    _lis = []
+    if _eep[&#39;data&#39;] is []:
+        raise GroupNotFound
+    for data in _eep[&#34;data&#34;]:
+        idd = data.get(&#34;id&#34;)
+        name = data.get(&#34;name&#34;)
+        e = dict(name=name, id=idd)
+        _lis.append(e)
+    return _lis</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_group_info"><code class="name flex">
+<span>async def <span class="ident">get_group_info</span></span>(<span>self, group_id: int) ‑> <a title="roblox_py.GroupInfo.GroupInfo" href="GroupInfo.html#roblox_py.GroupInfo.GroupInfo">GroupInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Group Info Class - Also Calls the update Function</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>group_id</code></strong> :&ensp;<code>int</code></dt>
+<dd>Group ID</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.GroupInfo" href="GroupInfo.html">roblox_py.GroupInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_group_info(self, group_id: int) -&gt; GroupInfo:
+    &#34;&#34;&#34;
+
+    Returns Group Info Class - Also Calls the update Function
+
+    Parameters
+    ----------
+    group_id : int
+        Group ID
+
+    Returns
+    -------
+    roblox_py.GroupInfo
+
+    &#34;&#34;&#34;
+
+    idkdd = isinstance(group_id, str)
+    if idkdd:
+        raise TypeError(f&#34;{group_id} must be an integer&#34;)
+    yes = GroupInfo(group_id=group_id, request=self.request)
+    await yes.update()
+    return yes</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_place"><code class="name flex">
+<span>async def <span class="ident">get_place</span></span>(<span>self, unverise_id) ‑> <a title="roblox_py.PlaceInfo.PlaceInfo" href="PlaceInfo.html#roblox_py.PlaceInfo.PlaceInfo">PlaceInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Place Info Class - Also Calls the update Function</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.PlaceInfo" href="PlaceInfo.html">roblox_py.PlaceInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_place(self, unverise_id) -&gt; PlaceInfo:
+    &#34;&#34;&#34;
+    Returns Place Info Class - Also Calls the update Function
+
+    Returns
+    -------
+    roblox_py.PlaceInfo
+    &#34;&#34;&#34;
+    e = PlaceInfo(universe_id=unverise_id, request=self.request)
+    await e.update()
+    return e</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_place_by_id"><code class="name flex">
+<span>async def <span class="ident">get_place_by_id</span></span>(<span>self, place_id: int) ‑> <a title="roblox_py.PlaceInfo.PlaceInfo" href="PlaceInfo.html#roblox_py.PlaceInfo.PlaceInfo">PlaceInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Place Info Class - Also Calls the update Function</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.PlaceInfo" href="PlaceInfo.html">roblox_py.PlaceInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_place_by_id(self, place_id: int) -&gt; PlaceInfo:
+    &#34;&#34;&#34;
+    Returns Place Info Class - Also Calls the update Function
+
+    Returns
+    -------
+    roblox_py.PlaceInfo
+    &#34;&#34;&#34;
+    idkdd = isinstance(place_id, str)
+    if idkdd:
+        raise TypeError(f&#34;{place_id} must be an integer&#34;)
+    r = await self.request.request(
+        url=f&#39;https://games.roblox.com/v1/games/multiget-place-details?placeIds={place_id}&#39;, method=&#39;get&#39;)
+
+    if r is []:
+        raise GameNotFound(&#34;Invalid Game ID&#34;)
+    e = PlaceInfo(universe_id=r[0][&#39;universeId&#39;], request=self.request)
+    await e.update()
+    return e</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_user_by_name"><code class="name flex">
+<span>async def <span class="ident">get_user_by_name</span></span>(<span>self, username: str) ‑> <a title="roblox_py.PlayerInfo.PlayerInfo" href="PlayerInfo.html#roblox_py.PlayerInfo.PlayerInfo">PlayerInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Player Info Class By username - Also Calls the update Function</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>username</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the User</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.PlayerInfo" href="PlayerInfo.html">roblox_py.PlayerInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_user_by_name(self, username: str) -&gt; PlayerInfo:
+    &#34;&#34;&#34;
+
+    Returns Player Info Class By username - Also Calls the update Function
+
+    Parameters
+    ----------
+    username : str
+        Name of the User
+
+    Returns
+    -------
+    roblox_py.PlayerInfo
+
+    &#34;&#34;&#34;
+    url = f&#34;https://api.roblox.com/users/get-by-username&#34;
+    pars = {&#39;username&#39;: username}
+    json1 = await self.request.request(url=url, parms=pars, method=&#39;get&#39;)
+    if &#34;Id&#34; not in json1.keys():
+        raise PlayerNotFound(&#34;Username is Invalid&#34;)
+    else:
+        e = PlayerInfo(player_id=json1[&#39;Id&#39;], request=self.request)
+        await e.update()
+        return e</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.get_user_info"><code class="name flex">
+<span>async def <span class="ident">get_user_info</span></span>(<span>self, Player_Id: int) ‑> <a title="roblox_py.PlayerInfo.PlayerInfo" href="PlayerInfo.html#roblox_py.PlayerInfo.PlayerInfo">PlayerInfo</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns Player Info Class - Also Calls the update Function</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>Player_Id</code></strong> :&ensp;<code>int</code></dt>
+<dd>ID of the User</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="roblox_py.PlayerInfo" href="PlayerInfo.html">roblox_py.PlayerInfo</a></code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def get_user_info(self, Player_Id: int) -&gt; PlayerInfo:
+    &#34;&#34;&#34;
+
+    Returns Player Info Class - Also Calls the update Function
+
+    Parameters
+    ----------
+    Player_Id : int
+        ID of the User
+
+    Returns
+    -------
+    roblox_py.PlayerInfo
+
+    &#34;&#34;&#34;
+    idkdd = isinstance(Player_Id, str)
+    if idkdd:
+        raise TypeError(f&#34;{Player_Id} must be an integer&#34;)
+    yes = PlayerInfo(player_id=Player_Id, request=self.request)
+    await yes.update()
+    return yes</code></pre>
+</details>
+</dd>
+<dt id="roblox_py.Client.Client.join_game"><code class="name flex">
+<span>async def <span class="ident">join_game</span></span>(<span>self, PlaceID: int, roblox_folder_path=None, roblox_game_path=None) ‑> <a title="roblox_py.Join_Game.JoinGame" href="Join_Game.html#roblox_py.Join_Game.JoinGame">JoinGame</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the Join Game Class</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>PlaceID</code></strong> :&ensp;<code>int</code></dt>
+<dd>Place Id to join</dd>
+<dt><strong><code>roblox_folder_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Roblox Resource Folder Path</dd>
+<dt><strong><code>roblox_game_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Roblox Game Folder Path</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>roblox_py.JoinGame</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def join_game(self, PlaceID: int, roblox_folder_path=None, roblox_game_path=None) -&gt; JoinGame:
+    &#34;&#34;&#34;
+
+    Returns the Join Game Class
+
+    Parameters
+    ----------
+    PlaceID : int
+        Place Id to join
+    roblox_folder_path : str
+        Roblox Resource Folder Path
+    roblox_game_path : str
+        Roblox Game Folder Path
+
+
+    Returns
+    -------
+    roblox_py.JoinGame
+
+    &#34;&#34;&#34;
+    idkdd = isinstance(PlaceID, str)
+    if idkdd:
+        raise TypeError(f&#34;{PlaceID} must be an integer&#34;)
+    return JoinGame(
+        game_id=PlaceID,
+        request=self.request,
+        roblox_folder_path=roblox_folder_path,
+        roblox_game_folder_path=roblox_game_path)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="roblox_py" href="index.html">roblox_py</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="roblox_py.Client.Client" href="#roblox_py.Client.Client">Client</a></code></h4>
+<ul class="">
+<li><code><a title="roblox_py.Client.Client.get_asset" href="#roblox_py.Client.Client.get_asset">get_asset</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_auth_group" href="#roblox_py.Client.Client.get_auth_group">get_auth_group</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_auth_user" href="#roblox_py.Client.Client.get_auth_user">get_auth_user</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_badge" href="#roblox_py.Client.Client.get_badge">get_badge</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_bundle" href="#roblox_py.Client.Client.get_bundle">get_bundle</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_cookies_from_credentials" href="#roblox_py.Client.Client.get_cookies_from_credentials">get_cookies_from_credentials</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_gamepass" href="#roblox_py.Client.Client.get_gamepass">get_gamepass</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_group_by_name" href="#roblox_py.Client.Client.get_group_by_name">get_group_by_name</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_group_info" href="#roblox_py.Client.Client.get_group_info">get_group_info</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_place" href="#roblox_py.Client.Client.get_place">get_place</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_place_by_id" href="#roblox_py.Client.Client.get_place_by_id">get_place_by_id</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_user_by_name" href="#roblox_py.Client.Client.get_user_by_name">get_user_by_name</a></code></li>
+<li><code><a title="roblox_py.Client.Client.get_user_info" href="#roblox_py.Client.Client.get_user_info">get_user_info</a></code></li>
+<li><code><a title="roblox_py.Client.Client.join_game" href="#roblox_py.Client.Client.join_game">join_game</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

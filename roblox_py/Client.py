@@ -27,7 +27,7 @@ class Client:
         self.request = Requests(cookies=cookies)
 
     @staticmethod
-    async def get_cookies_from_credentials(username_or_email, password, login_type, token:TwoCaptcha):
+    async def get_cookies_from_credentials(username_or_email, password, login_type, token: TwoCaptcha):
 
         """
         Returns Cookies using Username/Email and Password
