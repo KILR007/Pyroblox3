@@ -26,7 +26,8 @@ class Client:
         self.request = Requests(cookies=cookies)
 
     @staticmethod
-    async def get_cookies_from_credentials(username_or_email, password, type, token):
+    async def get_cookies_from_credentials(username_or_email, password, login_type, token):
+
         """
         Returns Cookies using Username/Email and Password
 
@@ -36,35 +37,41 @@ class Client:
             User Email/Password to login in
         password : str
             Password of the account
-        type : str
-            If Chosen "email"  - "username_or_email" will be considered as Email
+        login_type : str
+            login type to login in, can be "email" or "username"
         token : stc
             roblox_py.TwoCaptcha
 
         """
-        type = type.lower()
-        dict_e = None
-        if type == "email":
-            dict_e = {
+        login_type = login_type.lower()
+        login_dict = None
+        if login_type == "email":
+            login_dict = {
                 "ctype": "Email",
                 "cvalue": f"{username_or_email}",
                 "password": f"{password}",
             }
-        if type == "username":
-            dict_e = {
+        if login_type == "username":
+            login_dict = {
                 "ctype": "Username",
                 "cvalue": username_or_email,
                 "password": password
             }
+        xcrsftoken = ""
         async with aiohttp.ClientSession() as ses:
-            async with ses.post(url="https://www.roblox.com/favorite/toggle") as smth:
-                try:
-                    xcrsftoken = smth.headers["X-CSRF-TOKEN"]
-                except KeyError:
-                    xcrsftoken = ""
-            dict_e = json.dumps(dict_e)
+            async def update_xcrsftoken():
+                async with ses.post(url="https://auth.roblox.com/") as xcsf_req:
+                    try:
+                        xcrsftoken = xcsf_req.headers["X-CSRF-TOKEN"]
+                        return xcrsftoken
+                    except KeyError:
+                        xcrsftoken = ""
+                        return xcrsftoken
 
-            async with ses.post(url=f'https://auth.roblox.com/v2/login', data=dict_e, headers={
+            login_dict = json.dumps(login_dict)
+            xcrsftoken = await update_xcrsftoken()
+
+            async with ses.post(url=f'https://auth.roblox.com/v2/login', data=login_dict, headers={
                 'X-CSRF-TOKEN': xcrsftoken,
                 'DNT': '1',
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
@@ -74,26 +81,49 @@ class Client:
                 'Origin': 'www.roblox.com',
             }) as f:
                 josn = await f.json()
+
             if f.status == 403:
+                if josn['errors'][0]['message'] == "Token Validation Failed":
+                    xcrsftoken = await update_xcrsftoken()
                 if josn['errors'][0]['message'] == 'You must pass the robot test before logging in.':
                     et = await token.solve(public_key=f'476068BF-9607-4799-B53D-966BE98E2B81')
-                    if type == "email":
-                        dict_e = {
+                    if login_type == "email":
+                        login_dict = {
                             "ctype": "Email",
                             "cvalue": username_or_email,
                             "password": password,
                             'captchaToken': et,
                             "captchaProvider": 'PROVIDER_ARKOSE_LABS'}
-                    if type == 'username':
-                        dict_e = {
+                    if login_type == 'username':
+                        login_dict = {
                             "ctype": "Username",
                             "cvalue": username_or_email,
                             "password": password,
                             'captchaToken': et,
                             "captchaProvider": 'PROVIDER_ARKOSE_LABS'}
-                    dict_e = json.dumps(dict_e)
-                    async with ses.post(url=f'https://auth.roblox.com/v2/login', data=dict_e) as no:
-                        return no.cookies
+                    login_dict = json.dumps(login_dict)
+                    xcrsftoken = await update_xcrsftoken()
+
+                    async with ses.post(url=f'https://auth.roblox.com/v2/login', data=login_dict, headers={
+                        'X-CSRF-TOKEN': xcrsftoken,
+                        'DNT': '1',
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+                        'Content-type': 'application/json',
+                        'Accept': 'application/json',
+                        'referer': 'www.roblox.com',
+                        'Origin': 'www.roblox.com',
+                    }) as no:
+                        ja = await no.json()
+                        if no.status == 403:
+                            if ja['errors'][0]['message'] == "Token Validation Failed":
+                                xcrsftoken = await update_xcrsftoken()
+                        try:
+                            cookie_dict = {'.ROBLOSECURITY': f"{no.cookies.get('.ROBLOSECURITY').value}",
+                                           ".RBXID": f"{no.cookies.get('.RBXID').value}"}
+                            return cookie_dict
+
+                        except Exception:
+                            return no.cookies
 
     async def get_group_info(self, group_id: int) -> GroupInfo:
         """
