@@ -118,8 +118,9 @@ class Client:
                             if ja['errors'][0]['message'] == "Token Validation Failed":
                                 xcrsftoken = await update_xcrsftoken()
                         try:
-                            cookie_dict = {'.ROBLOSECURITY': f"{no.cookies.get('.ROBLOSECURITY').value}",
-                                           ".RBXID": f"{no.cookies.get('.RBXID').value}"}
+                            cookie_dict = {
+                                '.ROBLOSECURITY': f"{no.cookies.get('.ROBLOSECURITY').value}",
+                                ".RBXID": f"{no.cookies.get('.RBXID').value}"}
                             return cookie_dict
 
                         except Exception:
