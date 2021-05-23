@@ -34,7 +34,7 @@ class Requests:
 
         """
         async with self.session as ses:
-            async with ses.fetch.post(url="https://www.roblox.com/favorite/toggle") as smth:
+            async with ses.fetch.post(url="https://auth.roblox.com/") as smth:
                 try:
                     xcrsftoken = smth.headers["X-CSRF-TOKEN"]
                     self.xcrsftoken = xcrsftoken
