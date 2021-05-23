@@ -89,7 +89,7 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 ````
 
-#### Authenticated User Group Example
+#### Authenticated  Group Example
 
 ````python
 import asyncio
@@ -97,7 +97,7 @@ from roblox_py import Client
 client = Client(cookies="Your Cookies here")
 async def main():
     auth_group = await client.get_auth_group(3232) # group id of which u wanna take actions with
-    await auth_group.pay(TargetId=1,amount=23) # Pays 23 robux to the user with the spcified user_id
+    await auth_group.pay(user_id=1,amount=23) # Pays 23 robux to the user with the spcified user_id
     await auth_group.change_description(description="very cool description")
     print(await auth_group.get_funds())
 loop = asyncio.get_event_loop()
