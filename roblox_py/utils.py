@@ -3,7 +3,6 @@ import warnings
 import json
 from .http_session import Http
 
-
 class Requests:
     """
 
@@ -15,7 +14,7 @@ class Requests:
         self.cookies = cookies
         cookies_list = {'.ROBLOSECURITY': self.cookies}
 
-        self.xcrsftoken = None
+        self.xcrsftoken = ""
         self.headers = {
             'X-CSRF-TOKEN': self.xcrsftoken,
             'DNT': '1',
@@ -27,24 +26,76 @@ class Requests:
         }
         self.session = Http(cookies=cookies_list)
 
+    @staticmethod
+    def check_status_400(status:int,text):
+        if status == 400:
+            try:
+                if text['errors'][0]['message'] == 'The target user is invalid or does not exist.' or \
+                        text['errors'][0]['message'] == 'The user id is invalid.':
+                    raise PlayerNotFound(
+                        text['errors'][0]['message'])
+                if text['errors'][0]['message'] == 'Group is invalid or does not exist.':
+                    raise GroupNotFound(
+                        text['errors'][0]['message'])
+                if text['errors'][0]['message'] == 'Invalid bundle':
+                    raise BundleNotFound(
+                        text['errors'][0]['message'])
+                if text['errors'][0]['message'] == 'Invalid assetId':
+                    raise AssetNotFound(
+                        text['errors'][0]['message'])
+                if text['errors'][0]['message'] == "BadgeInfo is invalid or does not exist.":
+                    raise BadgeNotFound(
+                        text['errors'][0]['message'])
+                else:
+                    warnings.warn(
+                        text['errors'][0]['message'])
+            except KeyError:
+                warnings.warn(text)
+    @staticmethod
+    def request_status(status):
+        var = {
+            401: Unauthorized,
+            429: RateLimited,
+            503: ServiceUnavailable,
+            500: InternalServiceError,
+        }
+        return var.get(status)
+    async def check_xcrsftoken(self,error_code:int,text,headers):
+        if error_code == 403:
+            if text['errors'][0]['message'] == 'Token Validation Failed':
+                try:
+                    self.xcrsftoken = headers['x-csrf-token']
+                except KeyError:
+                    pass
+                return True
+            else:
+                try:
+                    raise Forbidden(
+                        text['errors'][0]['message'])
+                except KeyError:
+                    raise Forbidden(text)
+
+
     async def get_xcrsftoken(self):
         """
 
-        Updates the xcrsftoken
+        Updates the xcrsf-token
 
         """
         async with self.session as ses:
             async with ses.fetch.post(url="https://auth.roblox.com/") as smth:
+                header = smth.headers
                 try:
-                    xcrsftoken = smth.headers["X-CSRF-TOKEN"]
+                    xcrsftoken = header["x-csrf-token"]
                     self.xcrsftoken = xcrsftoken
                 except KeyError:
-                    self.xcrsftoken = ""
+                    pass
 
-    async def request(self, url, method=None, data=None, parms=None):
+
+    async def request(self,url,method=None,data=None,parms:dict=None):
         if method is None:
             method = 'get'
-        if self.xcrsftoken is None:
+        if self.xcrsftoken == "":
             await self.get_xcrsftoken()
         if data is not None:
             data = json.dumps(data)
@@ -59,269 +110,75 @@ class Requests:
         }
         if method == 'post':
             async with self.session as ses:
-
                 async with ses.fetch.post(url=url, data=data, params=parms, headers=header) as rep:
-
                     json_text = await rep.json()
-                    if rep.status == 403:
-                        if json_text['errors'][0]['message'] == 'Token Validation Failed':
-                            self.xcrsftoken = None
-                            await self.get_xcrsftoken()
-                            await self.request(url=url, data=data, method=method, parms=parms)
-                        else:
-                            try:
-                                raise Forbidden(
-                                    json_text['errors'][0]['message'])
-                            except KeyError:
-                                raise Forbidden(json_text)
+                    check = await self.check_xcrsftoken(headers=rep.headers, error_code=rep.status, text=json_text)
+                    if check is True:
+                        await ses.close_session()
+                        await self.request(method=method, data=data, parms=parms, url=url)
+                    self.check_status_400(status=rep.status,text=json_text)
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        try:
+                            raise error(json_text['errors'][0]["message"])
+                        except KeyError:
+                            raise error(json_text)
 
-                    if rep.status == 401:
-                        try:
-
-                            raise Unauthorized(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise Unauthorized(json_text)
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise RateLimited(json_text)
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable(
-                                json_text["errors"][0]['message'])
-                        except KeyError:
-                            raise ServiceUnavailable(json_text)
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise InternalServiceError(json_text)
-                    if rep.status == 400:
-                        try:
-                            if json_text['errors'][0]['message'] == 'The target user is invalid or does not exist.' or \
-                                    json_text['errors'][0]['message'] == 'The user id is invalid.':
-                                raise PlayerNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Group is invalid or does not exist.':
-                                raise GroupNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid bundle':
-                                raise BundleNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid assetId':
-                                raise AssetNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == "BadgeInfo is invalid or does not exist.":
-                                raise BadgeNotFound(
-                                    json_text['errors'][0]['message'])
-                            else:
-                                warnings.warn(
-                                    json_text['errors'][0]['message'])
-                        except KeyError:
-                            warnings.warn(json_text)
                 return json_text
 
         if method == 'delete':
             async with self.session as ses:
                 async with ses.fetch.delete(url=url, params=parms, headers=header) as rep:
                     json_text = await rep.json()
-                    if rep.status == 403:
-                        if json_text['errors'][0]['message'] == 'Token Validation Failed':
-                            self.xcrsftoken = None
-                            await self.get_xcrsftoken()
-                            await self.request(url=url, data=data, method=method, parms=parms)
-                        else:
-                            try:
-                                raise Forbidden(
-                                    json_text['errors'][0]['message'])
-                            except KeyError:
-                                raise Forbidden(json_text)
+                    check = await self.check_xcrsftoken(headers=rep.headers, error_code=rep.status, text=json_text)
 
-                    if rep.status == 401:
+                    if check is True:
+                        await ses.close_session()
+                        await self.request(method=method, data=data, parms=parms, url=url)
+                    self.check_status_400(status=rep.status, text=json_text)
+                    error = self.request_status(rep.status)
+                    if error is not None:
                         try:
-                            raise Unauthorized(
-                                json_text['errors'][0]['message'])
+                            raise error(json_text['errors'][0]["message"])
                         except KeyError:
-                            raise Unauthorized(json_text)
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise RateLimited(json_text)
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable(
-                                json_text["errors"][0]['message'])
-                        except KeyError:
-                            raise ServiceUnavailable(json_text)
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise InternalServiceError(json_text)
-                    if rep.status == 400:
-                        try:
-                            if json_text['errors'][0]['message'] == 'The target user is invalid or does not exist.' or \
-                                    json_text['errors'][0]['message'] == 'The user id is invalid.':
-                                raise PlayerNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Group is invalid or does not exist.':
-                                raise GroupNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid bundle':
-                                raise BundleNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid assetId':
-                                raise AssetNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == "BadgeInfo is invalid or does not exist.":
-                                raise BadgeNotFound(
-                                    json_text['errors'][0]['message'])
-                            else:
-                                warnings.warn(
-                                    json_text['errors'][0]['message'])
-                        except KeyError:
-                            warnings.warn(json_text)
+                            raise error(json_text)
                 return json_text
         if method == 'patch':
             async with self.session as ses:
                 async with ses.fetch.patch(url=url, data=data, params=parms, headers=header) as rep:
                     json_text = await rep.json()
-
-                    if rep.status == 403:
-                        if json_text['errors'][0]['message'] == 'Token Validation Failed':
-                            self.xcrsftoken = None
-                            await self.get_xcrsftoken()
-                            await self.request(url=url, data=data, method=method, parms=parms)
-                        else:
-                            try:
-                                raise Forbidden(
-                                    json_text['errors'][0]['message'])
-                            except KeyError:
-                                raise Forbidden(json_text)
-
-                    if rep.status == 401:
+                    check = await self.check_xcrsftoken(headers=rep.headers, error_code=rep.status, text=json_text)
+                    if check is True:
+                        await ses.close_session()
+                        await self.request(method=method,data=data,parms=parms,url=url)
+                    self.check_status_400(status=rep.status, text=json_text)
+                    error = self.request_status(rep.status)
+                    if error is not None:
                         try:
-                            raise Unauthorized(
-                                json_text['errors'][0]['message'])
+                            raise error(json_text['errors'][0]["message"])
                         except KeyError:
-                            raise Unauthorized(json_text)
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise RateLimited(json_text)
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable(
-                                json_text["errors"][0]['message'])
-                        except KeyError:
-                            raise ServiceUnavailable(json_text)
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise InternalServiceError(json_text)
-                    if rep.status == 400:
-                        try:
-                            if json_text['errors'][0]['message'] == 'The target user is invalid or does not exist.' or \
-                                    json_text['errors'][0]['message'] == 'The user id is invalid.':
-                                raise PlayerNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Group is invalid or does not exist.':
-                                raise GroupNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid bundle':
-                                raise BundleNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid assetId':
-                                raise AssetNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == "BadgeInfo is invalid or does not exist.":
-                                raise BadgeNotFound(
-                                    json_text['errors'][0]['message'])
-                            else:
-                                warnings.warn(
-                                    json_text['errors'][0]['message'])
-                        except KeyError:
-                            warnings.warn(json_text)
+                            raise error(json_text)
                 return json_text
         if method == 'get':
             async with self.session as ses:
                 async with ses.fetch.get(url=url, params=parms, headers=header) as rep:
                     json_text = await rep.json()
 
-                    if rep.status == 403:
-                        if json_text['errors'][0]['message'] == 'Token Validation Failed':
-                            self.xcrsftoken = None
-                            await self.get_xcrsftoken()
-                            await self.request(url=url, data=data, method=method, parms=parms)
-                        else:
-                            try:
-                                raise Forbidden(
-                                    json_text['errors'][0]['message'])
-                            except KeyError:
-                                raise Forbidden(json_text)
-
-                    if rep.status == 401:
+                    check = await self.check_xcrsftoken(headers=rep.headers, error_code=rep.status, text=json_text)
+                    if check is True:
+                        await ses.close_session()
+                        await self.request(method=method,data=data,parms=parms,url=url)
+                    self.check_status_400(status=rep.status,text=json_text)
+                    error = self.request_status(rep.status)
+                    if error is not None:
                         try:
-                            raise Unauthorized(
-                                json_text['errors'][0]['message'])
+                            raise error(json_text['errors'][0]["message"])
                         except KeyError:
-                            raise Unauthorized(json_text)
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise RateLimited(json_text)
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable(
-                                json_text["errors"][0]['message'])
-                        except KeyError:
-                            raise ServiceUnavailable(json_text)
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError(
-                                json_text['errors'][0]['message'])
-                        except KeyError:
-                            raise InternalServiceError(json_text)
-                    if rep.status == 400:
-                        try:
-                            if json_text['errors'][0]['message'] == 'The target user is invalid or does not exist.' or \
-                                    json_text['errors'][0]['message'] == 'The user id is invalid.':
-                                raise PlayerNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Group is invalid or does not exist.':
-                                raise GroupNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid bundle':
-                                raise BundleNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == 'Invalid assetId':
-                                raise AssetNotFound(
-                                    json_text['errors'][0]['message'])
-                            if json_text['errors'][0]['message'] == "BadgeInfo is invalid or does not exist.":
-                                raise BadgeNotFound(
-                                    json_text['errors'][0]['message'])
-                            else:
-                                warnings.warn(
-                                    json_text['errors'][0]['message'])
-                        except KeyError:
-                            warnings.warn(json_text)
+                            raise error(json_text)
                 return json_text
 
     async def return_headers(self, url, method, data=None, parms=None):
-        if self.xcrsftoken is None:
+        if self.xcrsftoken == "":
             await self.get_xcrsftoken()
         if data is not None:
             data = json.dumps(data)
@@ -337,114 +194,45 @@ class Requests:
         if method == 'post':
             async with self.session as ses:
                 async with ses.fetch.post(url=url, data=data, params=parms, headers=header) as rep:
-
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return rep.headers
         if method == 'patch':
             async with self.session as ses:
                 async with ses.fetch.patch(url=url, data=data, params=parms, headers=header) as rep:
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return rep.headers
         if method == 'get':
             async with self.session as ses:
                 async with ses.fetch.get(url=url, data=data, params=parms, headers=header) as rep:
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return rep.headers
         if method == 'delete':
             async with self.session as ses:
                 async with ses.fetch.delete(url=url, data=data, params=parms, headers=header) as rep:
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return rep.headers
 
     async def just_request(self, url, method=None, data=None, parms: dict = None):
 
         if method is None:
             method = 'get'
-        if self.xcrsftoken is None:
+        if self.xcrsftoken == "":
             await self.get_xcrsftoken()
         if data is not None:
             data = json.dumps(data)
@@ -481,7 +269,7 @@ class Requests:
                     return ok
 
     async def html_request(self, url, method, data, parms=None):
-        if self.xcrsftoken is None:
+        if self.xcrsftoken == "":
             await self.get_xcrsftoken()
         if data is not None:
             data = json.dumps(data)
@@ -498,108 +286,40 @@ class Requests:
             async with self.session as ses:
                 async with ses.fetch.post(url=url, data=data, params=parms, headers=header) as rep:
                     r = await rep.read()
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return r.decode()
         if method == 'patch':
             async with self.session as ses:
                 async with ses.fetch.patch(url=url, data=data, params=parms, headers=header) as rep:
                     r = await rep.read()
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return r.decode()
         if method == 'get':
             async with self.session as ses:
                 async with ses.fetch.get(url=url, data=data, params=parms, headers=header) as rep:
                     r = await rep.read()
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return r.decode()
 
         if method == 'delete':
             async with self.session as ses:
                 async with ses.fetch.delete(url=url, data=data, params=parms, headers=header) as rep:
                     r = await rep.read()
-                    if rep.status == 401:
-                        try:
-                            raise Unauthorized()
-                        except KeyError:
-                            raise Unauthorized()
-                    if rep.status == 429:
-                        try:
-                            raise RateLimited()
-                        except KeyError:
-                            raise RateLimited()
-                    if rep.status == 503:
-                        try:
-                            raise ServiceUnavailable()
-                        except KeyError:
-                            raise ServiceUnavailable()
-                    if rep.status == 500:
-                        try:
-                            raise InternalServiceError()
-                        except KeyError:
-                            raise InternalServiceError()
                     if rep.status == 400:
                         raise BadRequest()
+                    error = self.request_status(rep.status)
+                    if error is not None:
+                        raise error()
                 return r.decode()

@@ -20,6 +20,9 @@ class Http:
         await self._session.close()
         self._session = None
 
+    async def close_session(self):
+        await self._session.close()
+
     @property
     def fetch(self):
         """
