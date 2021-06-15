@@ -3,6 +3,7 @@ import warnings
 import json
 from .http_session import Http
 
+
 class Requests:
     """
 
@@ -27,7 +28,7 @@ class Requests:
         self.session = Http(cookies=cookies_list)
 
     @staticmethod
-    def check_status_400(status:int,text):
+    def check_status_400(status: int, text):
         if status == 400:
             try:
                 if text['errors'][0]['message'] == 'The target user is invalid or does not exist.' or \
@@ -51,6 +52,7 @@ class Requests:
                         text['errors'][0]['message'])
             except KeyError:
                 warnings.warn(text)
+
     @staticmethod
     def request_status(status):
         var = {
@@ -60,7 +62,8 @@ class Requests:
             500: InternalServiceError,
         }
         return var.get(status)
-    async def check_xcrsftoken(self,error_code:int,text,headers):
+
+    async def check_xcrsftoken(self, error_code: int, text, headers):
         if error_code == 403:
             if text['errors'][0]['message'] == 'Token Validation Failed':
                 try:
@@ -74,7 +77,6 @@ class Requests:
                         text['errors'][0]['message'])
                 except KeyError:
                     raise Forbidden(text)
-
 
     async def get_xcrsftoken(self):
         """
@@ -91,8 +93,7 @@ class Requests:
                 except KeyError:
                     pass
 
-
-    async def request(self,url,method=None,data=None,parms:dict=None):
+    async def request(self, url, method=None, data=None, parms: dict = None):
         if method is None:
             method = 'get'
         if self.xcrsftoken == "":
@@ -116,7 +117,7 @@ class Requests:
                     if check is True:
                         await ses.close_session()
                         await self.request(method=method, data=data, parms=parms, url=url)
-                    self.check_status_400(status=rep.status,text=json_text)
+                    self.check_status_400(status=rep.status, text=json_text)
                     error = self.request_status(rep.status)
                     if error is not None:
                         try:
@@ -150,7 +151,7 @@ class Requests:
                     check = await self.check_xcrsftoken(headers=rep.headers, error_code=rep.status, text=json_text)
                     if check is True:
                         await ses.close_session()
-                        await self.request(method=method,data=data,parms=parms,url=url)
+                        await self.request(method=method, data=data, parms=parms, url=url)
                     self.check_status_400(status=rep.status, text=json_text)
                     error = self.request_status(rep.status)
                     if error is not None:
@@ -167,8 +168,8 @@ class Requests:
                     check = await self.check_xcrsftoken(headers=rep.headers, error_code=rep.status, text=json_text)
                     if check is True:
                         await ses.close_session()
-                        await self.request(method=method,data=data,parms=parms,url=url)
-                    self.check_status_400(status=rep.status,text=json_text)
+                        await self.request(method=method, data=data, parms=parms, url=url)
+                    self.check_status_400(status=rep.status, text=json_text)
                     error = self.request_status(rep.status)
                     if error is not None:
                         try:
